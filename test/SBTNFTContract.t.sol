@@ -51,16 +51,9 @@ contract TestSBTNFTContract is Test {
 
 
         console.log("mintBatch");
-        SBTNFTContract.MintParam[] memory params= new SBTNFTContract.MintParam[](2);
-        params[0] = SBTNFTContract.MintParam({ 
-            to: 0x3De70dA882f101b4b3d5f3393c7f90e00E64edB9,
-            tokenId: 1});
-        // params[1] = SBTNFTContract.MintParam({ 
-        //     to: 0x3De70dA882f101b4b3d5f3393c7f90e00E64edB9,
-        //     tokenId: 2});
-        params[1] = SBTNFTContract.MintParam({ 
-            to: 0xC565FC29F6df239Fe3848dB82656F2502286E97d,
-            tokenId: 2});
+        address[] memory params= new address[](2);
+        params[0] = 0x3De70dA882f101b4b3d5f3393c7f90e00E64edB9;
+        params[1] = 0xC565FC29F6df239Fe3848dB82656F2502286E97d;
         instance.mintBatch(params);
        
         vm.stopPrank();

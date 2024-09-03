@@ -30,10 +30,7 @@ contract SBTNFTContract is
 
     error SignerUnauthorizedAccount(address account);
 
-    struct MintParam {
-        address to;
-        uint256 tokenId;
-    }
+    uint256 private _nextTokenId;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -65,14 +62,13 @@ contract SBTNFTContract is
         signer = _signer;
     }
 
-    function mint(address to, uint256 tokenId) internal  {
+    function mint(address to, uint256 tokenId) internal {
         require(balanceOf(to) == 0, "SBT: one address can only own one token");
         _mint(to, tokenId);
     }
-    function mintBatch(MintParam[] calldata params) external onlySigner {
-        for (uint256 i = 0; i < params.length; ) {
-            MintParam calldata param = params[i];
-            mint(param.to, param.tokenId);
+    function mintBatch(address[] calldata addressList) external onlySigner {
+        for (uint256 i = 0; i < addressList.length; ) {
+            mint(addressList[i], ++_nextTokenId);
             unchecked {
                 ++i;
             }
