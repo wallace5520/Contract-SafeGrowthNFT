@@ -40,7 +40,7 @@ contract SBTNFTContract is
         _disableInitializers();
     }
 
-    function initialize(address initialOwner) public initializer {
+    function initialize(address initialOwner) external initializer {
         __ERC721_init("SafeGrowthNFT", "SBT");
         __Ownable_init(initialOwner);
         __UUPSUpgradeable_init();
@@ -69,7 +69,7 @@ contract SBTNFTContract is
         require(balanceOf(to) == 0, "SBT: one address can only own one token");
         _mint(to, tokenId);
     }
-    function mintBatch(MintParam[] calldata params) public onlySigner {
+    function mintBatch(MintParam[] calldata params) external onlySigner {
         for (uint256 i = 0; i < params.length; ) {
             MintParam calldata param = params[i];
             mint(param.to, param.tokenId);
@@ -101,16 +101,16 @@ contract SBTNFTContract is
         emit TokenClaimed(owner, tokenId);
     }
 
-    function setDynamicURI(string calldata uri) public onlyOwner {
+    function setDynamicURI(string calldata uri) external onlyOwner {
         _dynamicURI = uri;
     }
-    function setDefaultURI(string calldata uri) public onlyOwner {
+    function setDefaultURI(string calldata uri) external onlyOwner {
         _defaultURI = uri;
     }
 
     function tokenURI(
         uint256 tokenId
-    ) public view override returns (string memory) {
+    ) external view override returns (string memory) {
         _requireOwned(tokenId);
         return
             claimedTokens[tokenId]
@@ -122,7 +122,7 @@ contract SBTNFTContract is
         address from,
         address to,
         uint256 tokenId
-    ) public override {
+    ) external override {
         require(false, "SBT: Soul Bound Token");
         super.transferFrom(from, to, tokenId);
     }
