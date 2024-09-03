@@ -41,7 +41,6 @@ contract SBTNFTContract is
     }
 
     function initialize(address initialOwner) public initializer {
-        //Safe Growth of All Things
         __ERC721_init("SafeGrowthNFT", "SBT");
         __Ownable_init(initialOwner);
         __UUPSUpgradeable_init();
@@ -124,7 +123,7 @@ contract SBTNFTContract is
         address to,
         uint256 tokenId
     ) public override {
-        require(false, "");
+        require(false, "SBT: Soul Bound Token");
         super.transferFrom(from, to, tokenId);
     }
 
