@@ -69,7 +69,7 @@ contract SBTNFTContract is
     }
 
     function mint(address to, uint256 tokenId) public onlySigner {
-        require(balanceOf(to) == 0, "");
+        require(balanceOf(to) == 0, "Can only mint one");
         _mint(to, tokenId);
     }
     function mintBatch(MintParam[] calldata params) public onlySigner {
