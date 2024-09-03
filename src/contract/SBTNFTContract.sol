@@ -22,7 +22,7 @@ contract SBTNFTContract is
     address public signer;
 
     mapping(uint256 => bool) public claimedTokens;
-    event TokenCalimed(address indexed owner, uint256 tokenId);
+    event TokenClaimed(address indexed owner, uint256 tokenId);
 
     bytes32 internal DOMAIN_SEPARATOR;
 
@@ -82,7 +82,7 @@ contract SBTNFTContract is
         }
     }
 
-    function claime(
+    function claim(
         uint256 tokenId,
         uint256 _amount,
         bytes32 _r,
@@ -100,7 +100,7 @@ contract SBTNFTContract is
         );
 
         claimedTokens[tokenId] = true;
-        emit TokenCalimed(owner, tokenId);
+        emit TokenClaimed(owner, tokenId);
     }
 
     function setDynamicURI(string calldata uri) public onlySigner {
