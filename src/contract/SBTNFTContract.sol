@@ -92,6 +92,7 @@ contract SBTNFTContract is
 
         require(sender == owner, "SBT: incorrect token owner");
         require(!claimedTokens[tokenId], "SBT: token has already been claimed");
+        require(_amount == 1, "SBT: one address can only own one token");
         require(
             _verfySigner(sender, _amount, _v, _r, _s) == signer,
             "Invalid signer"
