@@ -65,14 +65,14 @@ contract SBTNFTContract is
         signer = _signer;
     }
 
-    function mint(address to, uint256 tokenId) public onlySigner {
+    function mint(address to, uint256 tokenId) external onlySigner {
         require(balanceOf(to) == 0, "SBT: one address can only own one token");
         _mint(to, tokenId);
     }
     function mintBatch(MintParam[] calldata params) external onlySigner {
         for (uint256 i = 0; i < params.length; ) {
             MintParam calldata param = params[i];
-            mint(param.to, param.tokenId);
+            this.mint(param.to, param.tokenId);
             unchecked {
                 ++i;
             }
@@ -110,7 +110,7 @@ contract SBTNFTContract is
 
     function tokenURI(
         uint256 tokenId
-    ) external view override returns (string memory) {
+    ) public view override returns (string memory) {
         _requireOwned(tokenId);
         return
             claimedTokens[tokenId]
@@ -122,7 +122,7 @@ contract SBTNFTContract is
         address from,
         address to,
         uint256 tokenId
-    ) external override {
+    ) public override {
         require(false, "SBT: Soul Bound Token");
         super.transferFrom(from, to, tokenId);
     }
