@@ -47,7 +47,7 @@ contract SBTNFTContract is
 
         DOMAIN_SEPARATOR = _computeDomainSeparator();
     }
-     /**
+    /**
      * @dev Throws if called by any account other than the signer.
      */
     modifier onlySigner() {
@@ -56,7 +56,6 @@ contract SBTNFTContract is
         }
         _;
     }
-
 
     function setSigner(address _signer) external onlyOwner {
         require(
@@ -94,7 +93,7 @@ contract SBTNFTContract is
         require(!claimedTokens[tokenId], "SBT: token has already been claimed");
         require(_amount == 1, "SBT: one address can only own one token");
         require(
-            _verfySigner(sender, _amount, _v, _r, _s) == signer,
+            _verifySigner(sender, _amount, _v, _r, _s) == signer,
             "Invalid signer"
         );
 
@@ -132,7 +131,7 @@ contract SBTNFTContract is
         address newImplementation
     ) internal override onlyOwner {}
 
-    function _verfySigner(
+    function _verifySigner(
         address recipient,
         uint256 totalRewards,
         uint8 _v,
@@ -146,9 +145,7 @@ contract SBTNFTContract is
                     DOMAIN_SEPARATOR,
                     keccak256(
                         abi.encode(
-                            keccak256(
-                                "SBTNFTClaime(address owner,uint256 amounts)"
-                            ),
+                            keccak256("claim(address owner,uint256 amounts)"),
                             recipient,
                             totalRewards
                         )
