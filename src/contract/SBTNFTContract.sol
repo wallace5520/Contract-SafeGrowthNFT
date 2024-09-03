@@ -9,7 +9,6 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
-import "@openzeppelin/contracts/utils/math/Math.sol";
 
 contract SBTNFTContract is
     Initializable,
