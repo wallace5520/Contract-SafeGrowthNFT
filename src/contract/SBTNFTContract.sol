@@ -90,7 +90,7 @@ contract SBTNFTContract is
         uint8 _v
     ) external {
         address owner = _requireOwned(tokenId);
-        address sender = msg.sender;
+        address sender = _msgSender();
 
         require(sender == owner, "");
         require(!claimedTokens[tokenId], "");
