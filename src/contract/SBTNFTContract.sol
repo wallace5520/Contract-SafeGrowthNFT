@@ -68,7 +68,7 @@ contract SBTNFTContract is
     }
 
     function mint(address to, uint256 tokenId) public onlySigner {
-        require(balanceOf(to) == 0, "Can only mint one");
+        require(balanceOf(to) == 0, "SBT: one address can only own one token");
         _mint(to, tokenId);
     }
     function mintBatch(MintParam[] calldata params) public onlySigner {
@@ -91,8 +91,8 @@ contract SBTNFTContract is
         address owner = _requireOwned(tokenId);
         address sender = _msgSender();
 
-        require(sender == owner, "");
-        require(!claimedTokens[tokenId], "");
+        require(sender == owner, "SBT: incorrect token owner");
+        require(!claimedTokens[tokenId], "SBT: token has already been claimed");
         require(
             _verfySigner(sender, _amount, _v, _r, _s) == signer,
             "Invalid signer"
@@ -102,10 +102,10 @@ contract SBTNFTContract is
         emit TokenClaimed(owner, tokenId);
     }
 
-    function setDynamicURI(string calldata uri) public onlySigner {
+    function setDynamicURI(string calldata uri) public onlyOwner {
         _dynamicURI = uri;
     }
-    function setDefaultURI(string calldata uri) public onlySigner {
+    function setDefaultURI(string calldata uri) public onlyOwner {
         _defaultURI = uri;
     }
 
