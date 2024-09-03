@@ -65,14 +65,14 @@ contract SBTNFTContract is
         signer = _signer;
     }
 
-    function mint(address to, uint256 tokenId) external onlySigner {
+    function mint(address to, uint256 tokenId) internal  {
         require(balanceOf(to) == 0, "SBT: one address can only own one token");
         _mint(to, tokenId);
     }
     function mintBatch(MintParam[] calldata params) external onlySigner {
         for (uint256 i = 0; i < params.length; ) {
             MintParam calldata param = params[i];
-            this.mint(param.to, param.tokenId);
+            mint(param.to, param.tokenId);
             unchecked {
                 ++i;
             }
