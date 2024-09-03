@@ -29,6 +29,8 @@ contract SBTNFTContract is
     string private _defaultURI;
     string private _dynamicURI;
 
+    error SignerUnauthorizedAccount(address account);
+
     struct MintParam {
         address to;
         uint256 tokenId;
@@ -47,6 +49,17 @@ contract SBTNFTContract is
 
         DOMAIN_SEPARATOR = _computeDomainSeparator();
     }
+     /**
+     * @dev Throws if called by any account other than the signer.
+     */
+    modifier onlySigner() {
+        if (signer != _msgSender()) {
+            revert SignerUnauthorizedAccount(_msgSender());
+        }
+        _;
+    }
+
+
     function setSigner(address _signer) external onlyOwner {
         require(
             _signer != address(0),
@@ -55,11 +68,11 @@ contract SBTNFTContract is
         signer = _signer;
     }
 
-    function mint(address to, uint256 tokenId) public onlyOwner {
+    function mint(address to, uint256 tokenId) public onlySigner {
         require(balanceOf(to) == 0, "");
         _mint(to, tokenId);
     }
-    function mintBatch(MintParam[] calldata params) public {
+    function mintBatch(MintParam[] calldata params) public onlySigner {
         for (uint256 i = 0; i < params.length; ) {
             MintParam calldata param = params[i];
             mint(param.to, param.tokenId);
@@ -90,10 +103,10 @@ contract SBTNFTContract is
         emit TokenCalimed(owner, tokenId);
     }
 
-    function setDynamicURI(string calldata uri) public onlyOwner {
+    function setDynamicURI(string calldata uri) public onlySigner {
         _dynamicURI = uri;
     }
-    function setDefaultURI(string calldata uri) public onlyOwner {
+    function setDefaultURI(string calldata uri) public onlySigner {
         _defaultURI = uri;
     }
 
