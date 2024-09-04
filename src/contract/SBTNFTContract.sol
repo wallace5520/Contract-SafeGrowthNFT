@@ -77,7 +77,6 @@ contract SBTNFTContract is
 
     function claim(
         uint256 tokenId,
-        uint256 _amount,
         bytes32 _r,
         bytes32 _s,
         uint8 _v
@@ -87,9 +86,8 @@ contract SBTNFTContract is
 
         require(sender == owner, "SBT: incorrect token owner");
         require(!claimedTokens[tokenId], "SBT: token has already been claimed");
-        require(_amount == 1, "SBT: one address can only own one token");
         require(
-            _verifySigner(sender, _amount, _v, _r, _s) == signer,
+            _verifySigner(sender, tokenId, _v, _r, _s) == signer,
             "Invalid signer"
         );
 
@@ -129,7 +127,7 @@ contract SBTNFTContract is
 
     function _verifySigner(
         address recipient,
-        uint256 totalRewards,
+        uint256 tokenId,
         uint8 _v,
         bytes32 _r,
         bytes32 _s
@@ -141,9 +139,9 @@ contract SBTNFTContract is
                     DOMAIN_SEPARATOR,
                     keccak256(
                         abi.encode(
-                            keccak256("claim(address owner,uint256 amounts)"),
+                            keccak256("claim(address recipient,uint256 tokenId)"),
                             recipient,
-                            totalRewards
+                            tokenId
                         )
                     )
                 )
