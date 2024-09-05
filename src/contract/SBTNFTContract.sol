@@ -38,7 +38,7 @@ contract SBTNFTContract is
     }
 
     function initialize(address initialOwner) external initializer {
-        __ERC721_init("SafeGrowthNFT", "SBT");
+        __ERC721_init("Safe Growth SBT", "SBT");
         __Ownable_init(initialOwner);
         __UUPSUpgradeable_init();
 
